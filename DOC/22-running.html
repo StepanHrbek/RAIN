@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML lang="en">
+<head>
+ <title>Resident Audio Interface (RAIN)</title>
+</head>
+<body>
+
+<h3>Running applications</h3>
+
+Typical application is started by .exe file.
+When you are in shell and type application's name (without extension),
+shell looks for .com first.
+So we add small app.com to your
+app.exe which will do all necessary stuff:<ul>
+ <li>select which rain server to run
+ <li>limit DOS server memory consumption to 3MB
+ <li>run server
+ <li>run app.exe
+ <li>pass all commandline parameters to app.exe
+ <li>disable dos4gw and rain banners
+ <li>return 99 or DOS4GW error code when app.exe was not run due to some error
+ <li>return exit code of app.exe otherwise
+</ul>
+Such .com loader is in RAIN package in two flavours, rename one to have the 
+same name as your .exe application and distribute them together.
+It is standard way to run RAIN applications and it will remain
+unchanged in future versions if possible.
+<p>
+More direct way to run applications, but still with quite big chance
+to stay 100% compatible with future versions, is to skip .com wrapper
+and run directly RAIN.EXE with application name (app.exe for example)
+and parameters on commandline. RAIN.EXE does some necessary stuff:<ul>
+ <li>select which rain server to run
+ <li>run it
+ <li>run app.exe
+ <li>pass all commandline parameters to app.exe
+ <li>return 99 or DOS4GW error code when app.exe was not run due to some error
+ <li>return exit code of app.exe otherwise
+</ul>
+Note: It wasn't possible to let applications spawn RAIN servers
+(DOS4GW doesn't run under RTM)
+instead RAIN servers spawn applications (RTM runs under DOS4GW).
+
+</body>
+</html>

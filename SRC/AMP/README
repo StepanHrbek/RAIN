@@ -1,0 +1,20 @@
+This is mp3 decoder library for RAIN.
+It is based on amp11.
+
+-----------------------------------------
+amp11
+(c) '97-99 Niklas Beisert
+nbeisert@ph.tum.de
+http://www.ph.tum.de/~nbeisert/amp11.html
+-----------------------------------------
+
+If you want to use this source for anything else than making RAIN,
+please, get original amp11.
+This derived distribution is highly illegal and I'll be surely banned.
+
+Compile with Watcom C/C++.
+
+My changes/bugfixes in decoder:
+-file doesn't have to start with an audio header (FF Fx)
+
+dee@mail.cz

@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML lang="en">
+<head>
+ <title>Resident Audio Interface (RAIN)</title>
+</head>
+<body>
+
+<h3>Current state of project</h3>
+
+<h3>Clients</h3>
+
+With RAIN it is possible to write Windows clients (clients = your applications)
+and DOS clients fully working in DOS and Windows (9x/Me/NT/2k/XP).<br>
+It is verified (on play.c and play.pas demos)
+that clients may be written at least in:
+<ul>
+ <li>DJGPP egcs-2.91.60 (DOS, 32bit protected mode)
+ <li>MinGW egcs-2.91.66 (Windows, 32bit protected mode)
+ <li>Cygwin gcc-2.95.2 (Windows, 32bit protected mode)
+ <li>Watcom C/C++ 11.0 (DOS, 16bit real mode)
+ <li>Watcom C/C++ 11.0 (DOS, 32bit protected mode)
+ <li>Watcom C/C++ 11.0 (Windows, 32bit protected mode)
+ <li>Borland Pascal 7.01 (DOS, 16bit real mode)
+ <li>Borland Pascal 7.01 (DOS, 16bit protected mode)
+ <li>Borland Pascal 7.01 (Windows, 16bit protected mode)
+ <li>FreePascal 1.0.4 (DOS, 32bit protected mode (GO32V2))
+ <li>FreePascal 1.0.4 (Windows, 32bit protected mode)
+ <li>TMT Pascal 3.50 (DOS, 32bit protected mode)
+</ul>
+If you are interested in other compilers/platforms, contact me.
+
+
+<h3>Servers</h3>
+
+There are two RAIN servers with necessarily different communication protocols.
+<p>
+DOS server services may be directly called by 16 or 32bit real or protected 
+mode clients running in DOS,
+its communication protocol uses shared memory and INT 0x12.
+DOS server supports SB, GUS, PAS and WSS.
+Server doesn't speed up timer, it is free for applications,
+but old handler must be still called 18.2 times per second.
+<p>
+Windows server must be able to comunicate with both Windows and DOS
+clients, its communication protocol uses two shared files.
+Windows server plays via waveOut or DirectSound.
+<p>
+It is possible to write also Linux RAIN server
+for DOS applications running in DOSemu, server with the same file sharing
+protocol, but it doesn't look much useful.
+Other platforms are too far from me now.
+<p>
+Both servers use MIDAS 1.1.2 and AMP11 from OCP 2.6.
+DOS server uses DOS4GW because it alows RTM(16) extender to be spawned.
+Both servers are build by Watcom C/C++.<br>
+
+
+<h3>Loaders</h3>
+
+There are small wrappers for running applications
+that decide and run the most suitable server together with application.
+They also hide possible different ways of running applications
+with different servers.
+
+</body>
+</html>

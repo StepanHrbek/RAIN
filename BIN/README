@@ -1,0 +1,7 @@
+
+PLAY.EXE     - extremely simple application: plays file given at commandline
+PLAY.COM     - one of universal application loaders, runs play.exe with rain
+RH.S3M       - rush hour by finarfin/leitmotiv, type play rh.s3m to test playing
+
+RAIN.EXE     - RAIN Windows server
+RAIN.LE      - RAIN DOS server, requires DOS4GW.EXE extender

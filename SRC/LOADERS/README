@@ -1,0 +1,23 @@
+
+loader1.*  - universal application loader, tries to run app only with rain,
+             use when running app without sound has no sense     
+loader2.*  - as loader1, but in case of failure it offers app without rain,
+             in case of no soundcard it runs app immediately without rain,
+             use when app without sound is still better than nothing
+w-32-dos   - the same loaders designed for Watcom-32bit-DOS applications
+
+Q: How to use loaders?
+A: Your application is expected to be .exe file, for example myapp.exe.
+   Rename loader to myapp.com. Add rain.exe and rain.le to the same
+   directory. Command "myapp" then runs your application with rain,
+   "myapp.exe" without rain.
+
+Q: Are loaders necessary?
+A: No, you can see what they do and do it yourself,
+   but it is recommended and it is much easier to use them.
+
+Q: Why Watcom-32bit-DOS clients require different loaders?
+A: Default loaders set DOS4G environment variable to limit memory
+   allocated by DOS4GW (=used by RAIN server!) to 3MB. The rest is for client.
+   In case of Watcom-32bit-DOS client, both client and server use DOS4GW
+   and share memory, so it would be bad to limit them to 3MB.

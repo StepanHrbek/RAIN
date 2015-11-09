@@ -1,0 +1,48 @@
+# watcom makefile for rain servers
+
+# amp and midas libraries must be compiled before
+
+AMP_ROOT=..\amp
+MIDAS_ROOT=\c\midas112
+
+MDS_SRC=$(MIDAS_ROOT)\src\midas
+MDS_LIB_WIN=$(MIDAS_ROOT)\lib\win32\wcretail\midas.lib
+MDS_LIB_DOS=$(MIDAS_ROOT)\lib\dos\wcretail\midas.lib
+AMP_LIB=$(AMP_ROOT)\rain-amp.lib
+
+# hack
+#MDS_SRC=$(subst \,\\,$(MDS_SRC))
+#MDS_LIB_WIN=$(subst \,\\,$(MDS_LIB_WIN))
+#MDS_LIB_DOS=$(subst \,\\,$(MDS_LIB_DOS))
+#AMP_LIB=$(subst \,\\,$(AMP_LIB))
+
+all: rain.le rain.exe
+
+rain.exe: rain-win.obj wincore.obj stub.exe $(MDS_LIB_WIN) $(AMP_LIB)
+	wlink system nt op quiet,stack=64k,stub=stub.exe f rain-win,wincore l $(MDS_LIB_WIN),$(AMP_LIB) n rain.exe
+rain.le: rain-dos.obj doscore.obj $(MDS_LIB_DOS) $(AMP_LIB)
+	wlink system dos4g op quiet,stack=64k,stub=none f rain-dos,doscore l $(MDS_LIB_DOS),$(AMP_LIB) n rain.le
+stub.exe: stub.c
+	wcl stub.c -bt=dos -ms -s
+rain-win.obj: rain-win.c rain-mds.inc raindef.h raincore.h
+	wcc386 rain-win.c -zq -w3 -bm -bt=nt -i=$(MDS_SRC)
+rain-dos.obj: rain-dos.c rain-mds.inc raindef.h raincore.h
+	wcc386 rain-dos.c -zq -w3 -bt=dos4g -d__DOS__ -i=$(MDS_SRC)
+wincore.obj: raincore.c raincore.h raindef.h
+	wcc386 raincore.c -zq -w3 -bm -bt=nt -i=$(MDS_SRC) -fo=wincore.obj
+doscore.obj: raincore.c raincore.h raindef.h
+	wcc386 raincore.c -zq -w3 -bt=dos4g -d__DOS__ -i=$(MDS_SRC) -fo=doscore.obj
+
+install: .SYMBOLIC rain.exe rain.le
+	upx --best rain.exe
+	upx --best rain.le
+	move rain.exe ..\..\bin
+	move rain.le ..\..\bin
+
+clean
+	if exist *.obj del *.obj
+mrproper
+	if exist *.obj del *.obj
+	if exist rain.le del rain.le
+	if exist rain.exe del rain.exe
+	if exist stub.exe del stub.exe

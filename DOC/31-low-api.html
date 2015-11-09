@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML lang="en">
+<head>
+ <title>Resident Audio Interface (RAIN)</title>
+</head>
+<body>
+
+<h3>RAIN low-level API</h3>
+
+How clients and servers communicate.<br>
+Only for RAIN developers.<p>
+
+Client checks environment string RAIN= for one of these values:
+<br>"SEG %i",segmentnumber
+<br>"FILE %s,%s",commandfile,replyfile<br>
+<p>
+<b>SEG %i</b> tells us that communication buffer is in given segment
+in conventional memory, with RAIN server version string in TALK_REPORT
+and with TALK_CMD set to CMD_NONE, other fields not defined.
+All we have to do is to fill parameter fields,
+TALK_CMD as last one,
+do int 12h (registers are preserved, only ax is filled with some
+value, that is normal int 12h behaviour) and read reply.
+TALK_CMD is filled only by us and zeroed to CMD_NONE only by server
+after executing command.
+TALK_REPORT is filled only by server and zeroed to "" only by us
+after reading report.
+List of fields and commands from raindef.h or rain.pas:<pre>
+
+#define TALK_BUFSIZE 1024 //buffer length
+#define TALK_STRSIZE 255  //max talk string length
+
+#define TALK_CMD       (*(volatile int*)(talk+ 0))    //parameters for rain
+#define TALK_PARAM1    (*(volatile int*)(talk+ 4))    //
+#define TALK_PARAM2    (*(volatile int*)(talk+ 8))    //
+#define TALK_PARAM3    (*(volatile int*)(talk+12))
+#define TALK_FILE_OFS  (*(volatile int*)(talk+16))
+#define TALK_FILE_SIZE (*(volatile int*)(talk+20))
+#define TALK_FILE_NAME         (( char*)(talk+24))
+#define TALK_REPORT            (( char*)(talk+512))   //reports from rain
+
+#define CMD_NONE       0
+#define CMD_PLAY       1 // param1=loop,param2=type,filename,ofs,size
+#define CMD_STOP       2 // param1=handle
+#define CMD_VOL        3 // param1=handle,param2=vol
+#define CMD_PAN        4 // param1=handle,param2=pan
+#define CMD_AMPLIFY    5 // param1=amplification
+#define CMD_TERMINATE -1
+
+</pre>
+Rain version string looks like "Resident Audio Interface %i.%i (%s)",
+protocol_version_high, protocol_version_low, server_name.
+<p>
+<b>FILE %s,%s</b> gives us names of shared temporary files to write
+commands to and to read replies from. Files can be opened whole time.
+Each line in command file contains one command.
+Command has "%i %i %i %i %i %i %s", command,param1,param2,param3,
+fileofs,filesize,filename form or shorter when last parameters are
+not needed, command is one of CMD_xxxx constants.
+First line of reply file contains RAIN version string.
+Following lines contain reports and errors from server.
+All error messages start with " ".
+Just one non-error report is defined now: "end of %i",handle when sound
+stops or may not be played at all.
+<p>
+Command CMD_TERMINATE is last command sent by application, server terminates
+after receiving it. It is neccessary to report application end to server
+because it seems there is no way how NT server can detect end of DOS
+application running in DOS box (stdlib and winAPI functions
+detect only end of whole DOS box).
+
+</body>
+</html>

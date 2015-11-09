@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML lang="en">
+<head>
+ <title>Resident Audio Interface (RAIN)</title>
+</head>
+<body>
+
+<h3>Compiling servers</h3>
+
+How to compile servers?<br>
+Only for RAIN developers.
+<ul>
+<li>Get Watcom C/C++.
+<li>Make amp11 library (subset of
+    <a href="http://www.physik.tu-muenchen.de/~nbeisert/amp11.html">amp11</a>)
+    from sources in /src/amp. amp11 requires Watcom 11.0 and Wmake.
+<li>Get <a href="http://www.s2.org/midas">Midas</a> (I used and recommend
+    version 1.1.2).
+<li>Bugfix and enhance Midas with /src/midas files.<br>
+    <font size="-1">
+    Note: Midas 1.1.2 bugs (midasdll.c, doscnf.c, win32cnf.c) must be fixed
+    (see <a href="http://dee.cz/texty/c_midas.html">Midas buglist</a>)
+    and file access (file.*) and wav decoder (midasfx.*) slightly enhanced
+    before using it.
+    It's possible to compile only these files, not whole Midas,
+    and give .objs to linker, the same code with bugs from midas.lib will not 
+    be used.<br>
+    Also Midas timer code was modified in precompiled RAIN servers 
+    so that background play doesn't
+    speed up timer (buffers must be longer then,
+    in sdevice.h DMABUFLEN 10 (was 25), in dsm.h MIXBUFLEN 10 (was 40)).
+    You don't have to do this modification, clients just
+    won't be allowed to speed-up timer.
+    </font>
+<li>Make Midas library with Watcom.
+<li>Set paths in makefile and make RAIN servers. Of course with Watcom.<br>
+    Windows server (rain-win.c) may also be compiled with other compilers, but
+    it wasn't tested, DOS server (rain-dos.c) needs Watcom because of DOS4GW.<br>
+    <font size="-1">
+    Note: Stub.exe (stub.c) is stub for windows RAIN.EXE server.
+    It calls DOS server with DOS4GW.EXE RAIN.LE command.
+    Stub is inserted by Watcom linker option 'option stub=stub.exe'.
+    </font>
+
+</ul>
+
+</body>
+</html>

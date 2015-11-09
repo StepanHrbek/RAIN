@@ -1,0 +1,10 @@
+Resident Audio Interface, release 1.5
+
+ Play mp3, xm, s3m, mod, wav, (it, iff)
+ from your 16/32bit real/protected mode DOS/Windows 
+ DJGPP/MinGW/Cygwin/Watcom/Borland Pascal/FreePascal/TMT Pascal applications
+ via 32bit DOS or Windows 9x/Me/NT/2k/XP audio servers (version 1.4).
+
+ Beatiful API. Source code included.
+
+ http://dee.cz/rain

@@ -1,0 +1,35 @@
+# watcom makefile for amp11 lib for rain
+
+cdebopt = /d1
+
+.cpp: .;binfile
+
+defines = -dFDCTBEXT -dFDCTDEXT -dFASTBITS -dDOS
+objects=rain-amp.obj ampsynth.obj ampsynwc.obj ampdec.obj amp3decw.obj amp1dec.obj amp2dec.obj amp3dec.obj binfile.obj binfstd.obj binfarc.obj
+
+copt=/oneatmrlbkhi+ /ei /s /5 /5r /fp3 /zp8 /fpi87 /bt=nt
+#copt=/oabklmnrt /w3 /zp1 /5r /s /fp5 /fpi87 /bt=nt
+aopt=/mf
+
+.silent
+.erase
+
+all: rain-amp.lib
+
+rain-amp.lib: $(objects)
+  wlib -n -m rain-amp.lib +binfile +binfstd +binfarc +ampsynth +ampsynwc +amp1dec +amp2dec +amp3dec +amp3decw +ampdec +rain-amp
+
+.cpp.obj: .autodepend
+  echo $@
+  *wpp386 /zq $(copt) $(defines) $(cdebopt) $<
+
+.asm.obj: .autodepend
+  echo $@
+  *wasm /zq $(aopt) $(defines) $(cdebopt) $<
+
+clean
+  if exist *.obj del *.obj
+
+mrproper
+  if exist *.obj del *.obj
+  if exist *.lib del *.lib

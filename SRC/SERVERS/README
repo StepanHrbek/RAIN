@@ -1,0 +1,5 @@
+
+RAIN servers sources.
+
+Amp and Midas had to be compiled first and paths in makefile set.
+Watcom C/C++ and wmake are required.

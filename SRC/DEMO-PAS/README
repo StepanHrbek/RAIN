@@ -1,0 +1,5 @@
+
+rain.pas - high level RAIN API for pascal
+
+play.pas - simple application that plays given sound (mp3, xm, wav etc..)
+           look to \bin with precompiled play.exe for how to use it

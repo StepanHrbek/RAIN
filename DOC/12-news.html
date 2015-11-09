@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML lang="en">
+<head>
+ <title>Resident Audio Interface (RAIN)</title>
+</head>
+<body>
+
+<h3>News:</h3>
+
+<ul>
+<li>12.3.2002:
+    RAIN 1.5 have been released.
+    <a href="http://dee.cz/rain/rain15.rar">Download all</a> (RAR, 330KB).
+    <br>Default DSound buffer length increased to 200ms (100ms is short on some computers).
+    <br>When no sound device is detected, RAIN doesn't continue silently 
+    nor doesn't complain about "Device busy" as it did in Windows,
+    it terminates immediately with exitcode 98. 
+    Application loader2 recognizes this code and runs application without RAIN 
+    immediately.
+    <br>What does it mean? App has more memory when there is no soundcard.
+<li>27.9.2001:
+    RAIN 1.4c have been released.
+    New high-level C/C++ API allows clients to be written in C/C++.
+    Both C/C++ and Pascal clients may be also written in Windows. 
+    See <a target=contents href="13-current-state.html">current state of 
+    project</a> for list of supported compilers/platforms
+    (new: <b>DJGPP, MinGW, Cygwin, Watcom, FreePascal, TMT Pascal</b>).
+    Btw, C/C++ API is direct port from pascal API, 2 evenings of work; and 
+    complete support for Windows clients wasn't more than inserting some ifdef.
+    Servers (version 1.4) remain unchanged. Documentation redesigned.
+<li>4.7.2001:
+    RAIN servers 1.4 have been released.
+    Multiple clients may be served sequentially by one server
+    started with "-p" parameter (you can run "RAIN.EXE -p BP.EXE" 
+    and develop in Borland's IDE with RAIN serving to all programs you run).
+    MP3s with RIFF (WAV) header spread like plague so they may be played now.
+<li>12.1.2001:
+    RAIN servers 1.3 have been released.
+    Enhanced application loader tries to run apps with rain and then, in case
+    of failure, also without rain.
+    MP3s with ID3 header may be played now.
+    DirectSound device is disabled by default <small>(Why? Dsound seems unable
+    to start playing from fullscreen console, console must be windowed 
+    for at least one moment.
+    Switching console to window for one moment is too dirty hack for me,
+    disabling dsound is cleaner.
+    Asking at msdn.microsoft.com was absolutely useles...please help if you 
+    are guru.)</small>
+<li>14.2.2000:
+    RAIN winserver 1.2 has been released.
+    DirectSound device is enabled and set by default...
+    Rain uses "sticky focus", it means that it plays even
+    from background, but stops when foreground application uses DirectSound.
+    Server sets high priority class for self (I expect that computers
+    are strong enough to make some music, so let's make it before other jobs
+    to avoid stream interrupts)... but I also expect you won't play twenty
+    mp3s at once.
+    App.com loader is little bit longer...there was no problems reported, but
+    current version is safer.
+<li>3.1.2000:
+    RAIN servers 1.1 have been released.
+    Read news in new paragraph <a href="#configuring">Configuring</a>.
+    Small harmless bug in rain.pas fixed (random error report).
+    Windows specific:
+    "8bit cards in windows" bug found and fixed in Midas.
+    Default windows buffer length increased from my crazy 100ms back to 500ms.
+    DirectSound still disabled, because I don't know how to make it sound
+    even in fullscreen and not just in window.
+    DOS specific:
+    Interrupts enabled inside Rain.
+<li>20.12.1999:
+    RAIN 1.0 has been released.
+<li>25.11.1999:
+    Bug in NT or Watcom found, infinite waiting for child process fixed
+    (command CMD_TERMINATE must have been added).
+    DOS server uses timer again, but doesn't speed it up, it's free for
+    application as long as they call old vector sometimes,
+    polling is needed again, but only for mp3 playing in DOS.
+    General protection faults seen no more.
+    DirectSound code disabled for poor functionality, wave device stays.
+    Loader app.com fixed, now it has 265 bytes (256 would be better).
+    It seems that everything important
+    works now, expect soon release if no new problems appear during
+    final tests.
+<li>27.9.1999:
+    Servers and utilities exit codes specified.
+    Watcom wstub.exe bug found, wstub.c different but also buggy,
+    stub example in help different again but also buggy, new stub written,
+    now RAIN.EXE is windows server and RAIN.LE dos server. RAIN.EXE has stub
+    that calls DOS4GW.EXE RAIN.LE.
+    Applications may use timer as they wish, modified Midas
+    uses it no more. Everything (not just mp3) now depends on polling.
+    Problems with taskswitching seems to be only Gravis
+    Windows drivers problems, SoundBlaster plays well.
+    Windows server reports general protection faults sometimes during
+    its shutdown. It was seen only with Gravis...is it Windows drivers
+    problem again?... more time needed before release.
+<li>24.9.1999: Protocol is set up by environment string rather than by
+    commandline parameter. MP3 volume fixed. Some problems remain to solve...
+    taskswitching can stop sound output..maybe just bad Gravis Windows drivers?
+<li>22.9.1999: MP3 support added. Standard way of running applications
+    defined, see 'Running applications' section below.
+    Another Midas bug located and fixed,
+    amp bug (also in cubic player) still escaping.
+    Work complete, sources clean, makefiles dirty...no makefiles,
+    it's quite hacking with midas and amp.
+    Not tested under NT yet. Wait for soon release.
+<li>13.9.1999: One Midas bug located and fixed, nice high-level API added :)
+<li>9.9.1999: No news yet, all this is fresh enough :)
+</ul>
+
+
+</body>
+</html>

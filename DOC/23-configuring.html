@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML lang="en">
+<head>
+ <title>Resident Audio Interface (RAIN)</title>
+</head>
+<body>
+
+<h3>Configuring servers</h3>
+
+Default server behaviour is to autodetect everything.
+<p>
+But user may also run config (rain -c)
+and let server write its config file midas.dos or midas.win.
+In this case, server first tries to overwrite existing config file
+in default directory and then in directory with running rain.exe.
+If there's no config file yet, server tries to create it in default directory
+and then (if not successful) in directory with running rain.exe.
+At server startup, config file is searched first in default directory
+and then in directory with running rain.exe.
+<p>
+There are default values that may be confgured (high quality mixing,
+100ms long buffer) but also hardwired values like
+3sec mp3 buffer,
+minimum of 40 polls per sec to play mp3 without interrupts,
+32 channels for modules and 8 for samples,
+in DOS server 2MB for modules, samples and stream buffers...
+In case of need I can change these values or make them configurable by user or client.
+     
+</body>
+</html>

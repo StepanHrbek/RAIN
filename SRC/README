@@ -1,0 +1,9 @@
+
+amp     - mp3 decoder library based on amp11 990908
+midas   - changes to midas 1.1.2 (you need to get original midas too)
+
+servers - DOS and Windows RAIN servers, require amp and midas to be compiled
+loaders - universal application loaders
+
+demo-pas- high level API for pascal and simple demo, requires servers and loader
+demo-c  - high level API for C/C++ and simple demo, requires servers and loader

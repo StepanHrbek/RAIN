@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML lang="en">
+<head>
+ <title>Resident Audio Interface (RAIN)</title>
+</head>
+<body>
+
+<h3>RAIN high-level API</h3>
+
+<pre>Simple interface for RAIN users (programmers):
+
+For C/C++ in real/protected mode use rain.h.
+For Pascal in real/protected mode use unit rain.pas.
+
+RainInit()
+  After program startup, communication protocol is set to no communication.
+  Everything works, but in silence.
+  RainInit reads environment string RAIN= and selects better communication
+  protocol if possible. Further RainInit calls are ignored.
+  Returns RAIN version string, empty for no communication.
+  Note: There is no destructor. You don't even have to stop playing sounds
+  when you finish.
+
+RainPoll()
+  Call it time from time.
+  If you don't, reports might lay unnoticed until next rain call (any call)
+  and sound output may be interrupted until next RainPoll() call.
+
+RainPlay(filename,fileofs,filesize,loop,volume,panning)
+  Starts playing sound located in file filename at offset fileofs and
+  filesize bytes long. When fileofs=filesize=0, whole file is taken.
+  File type is detected from its contents.
+  Currently supported file types: mod,s3m,xm,(it),(iff),wav,mp3.
+  When loop=0, sound is played just once and end is reported to Reporter.
+  When loop<>0, sound is repeated until you stop it with RainStop().
+  Always returns runtime-unique non-zero sound handle even if
+  sound may not be played. In this case report that sound is over follows.
+
+RainSetVolume(handle,volume)
+  Sets sound volume. Range 0..64.
+  Note: You may call any function with invalid handle and nothing will happen.
+
+RainSetPanning(handle,panning);
+  Sets sound panning. Range -64..64.
+  Has no effect on modules.
+
+RainStop(handle)
+  Stops sound.
+  End is not reported to Reporter.
+
+RainAmplification(amp)
+  Sets volume amplification. 100 is default, 200 is twice louder etc.
+  New value overrides previous one.
+
+reporters
+  Reporters are callback functions - variables of procedure(report) type.
+  They are called from Rain commands with error and other reports.
+  You may issue other Rain commands from reporter, but in this case
+  it must be reentrant, because commands may call reporters.
+  You may change reporters at any time.
+
+ReportError
+  Error messages are reported to ReportError(string).
+  Default ReportError echoes messages to stderr.
+
+ReportEnd
+  Ends of non-looping sounds are reported to ReportEnd(handle).
+  Default ReportEnd does nothing.
+
+async:byte
+  Only in case you call Rain command asynchronously, for example you hook
+  RainPoll to timer:
+  Increase async before every asynchronous call and decrease it after.
+  Rain won't report any errors until next synchronous call.
+  It's just for your convenience, you won't have to think what can happen
+  and how to solve it when your Reporter is called asynchronously.
+  Note: Asynchronous call may be ignored if it's not possible to execute it
+  immediately (DOS safety flag not set or synchronous Rain command processed).
+  Note: Sound ends are always reported immediately. If you call RAIN
+  asynchronously, ReportEnd must be safe (prepared for asynchronous call).
+</pre>
+
+</body>
+</html>
